@@ -12,10 +12,9 @@ Desktop application 💻 for calculating Muslim prayer times 🕌 and alarm (Adh
 </div>
 
 ## Screenshots
-<h1 align="center">
 Main App           |
 :---------------------:|
-![Main App - screenshot](screenshots/1.gif)  </h1>
+![Main App - screenshot](screenshots/1.gif) 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
