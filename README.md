@@ -20,7 +20,7 @@ Main App           | Adhan
 
 ## Features
 * [x] Use Api (Prayer Times) 
-* [x] طريقة التنبيه الأذن او الوضع الصامت
+* [x] طريقة التنبيه الأذان او الوضع الصامت
 * [x] تأكد من وجود انترنت عند فتح التطبيق لأول مرة
 * [ ] اخيار الولاية
 <p align="right">(<a href="#top">back to top</a>)</p>
