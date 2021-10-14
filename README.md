@@ -13,8 +13,8 @@ Desktop application 💻 for calculating Muslim prayer times 🕌 and alarm (Adh
 
 ## Screenshots
 Main App           | Adhan
-:---------------------:|:------------------:
-![Main App - screenshot](screenshots/1.gif)  | ![Adhan - screenshot](screenshots/2.gif)
+:---------------------:
+![Main App - screenshot](screenshots/1.gif)  
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
