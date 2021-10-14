@@ -1,0 +1,113 @@
+
+
+.Applicationlkol{
+    -fx-background-color:transparent;
+    -fx-background-radius: 3em;
+}
+
+.pageApplication{
+    -fx-background-color: linear-gradient(to right top, #11998e 0%, #38ef7d 100%);
+    
+    -fx-background-radius: 20px 20px 20px 20px;
+}
+
+.barymin{ /*Lymin*/
+    -fx-background-color:  linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+    -fx-background-radius:20px 20px 0px 0px;
+}
+
+.circleID{
+
+-fx-fill:#bec8cd;
+
+}
+
+.circleID:hover{
+
+-fx-fill:blue;
+
+}
+
+.button{
+    -fx-background-color: linear-gradient(to right top, #FBAB7E 0%, #F7CE68 100%);
+    -fx-background-radius: 25;
+}
+
+.button:hover{
+/*        -fx-background-color:linear-gradient(to right top, #FFE53B 0%, #FF2525 74%);*/
+        -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+}
+
+.frequency-btn-selected {
+    -fx-background-color: linear-gradient(to right top, #FBAB7E 0%, #F7CE68 100%);
+}
+
+.frequency-btn-selected:hover {
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+}
+
+
+.Start-btn-selected {
+   -fx-background-color: linear-gradient(to right top, #11998e 0%, #38ef7d 100%);
+}
+
+.Start-btn-selected:hover {
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+}
+
+.green{
+       -fx-background-color: linear-gradient(to right top, #11998e 0%, #38ef7d 100%);
+}
+
+.jfx-dialog-overlay-paneWhite > StackPane {
+    -fx-background-radius: 10;
+    -fx-background-color: white;
+}
+
+.jfx-dialog-overlay-paneBlack > StackPane {
+    -fx-background-radius: 10;
+    -fx-background-color: linear-gradient(to top, #485461 0%, #28313b 74%);
+}
+
+
+
+.text-areaWhiteMode {
+    -fx-font-family: Consolas;
+    -fx-font-size: 24;
+    -fx-text-fill: linear-gradient(to right top, #11998e 0%, #38ef7d 100%);
+    -fx-display-caret:true;
+}
+
+.text-areaWhiteMode  .content {
+    -fx-background-color: #EEEEEE;
+}
+
+.text-areaWhiteMode  *.text {
+    -fx-text-alignment: center;
+}
+
+.text-areaDarkMode {
+    -fx-font-family: Consolas;
+    -fx-font-size: 24;
+    -fx-text-fill: white;
+    -fx-display-caret:true;
+}
+
+.text-areaDarkMode  .content {
+    -fx-background-color:  linear-gradient(to bottom, #485461 0%, #28313b 74%);
+}
+
+.text-areaDarkMode  *.text {
+    -fx-text-alignment: center;
+}
+
+
+.combo-box .list-cell 
+{
+    -fx-background: white;
+     -fx-background-color: linear-gradient(to right top, #FBAB7E 0%, #F7CE68 100%);
+    -fx-text-fill: -fx-text-base-color;
+    -fx-padding: 3 0 2 7;
+    -fx-cell-size: 1.66667em; 
+}
+
