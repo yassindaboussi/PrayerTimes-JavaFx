@@ -37,9 +37,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import prayertime.PrayerTime;
 import prayertime.PrayerTimeController;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -73,6 +78,12 @@ public class Functions {
     private static int OnetimeMoghreb = 0;
     private static int Onetimeieacha = 0;
 
+    private static String FajerAM;
+    private static String DhoherPM;
+    private static String AsarPM;
+    private static String MoghrebPM;
+    private static String iechaPM;
+
     public static Boolean netIsAvailable() {
         try {
             final URL url = new URL("http://www.google.com");
@@ -87,48 +98,99 @@ public class Functions {
         }
     }
 
-    public static void InterNetTime(Label txtFajr, Label txtDhohr, Label txtAsar, Label txtMoghreb, Label txtecha) throws IOException {
+    public static void Oppa() throws IOException, ParseException {
+        Document document = null;
+        document = Jsoup.connect("").get();
+        Elements el = document.select(".cm-string");
 
-        String url = "http://www.affaires-religieuses.tn/public/getData/1";
-        URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+        for (Element e : el) {
+            System.out.println("ssssssssssssssss" + e.text());
+            result.add(e.text());
         }
-        in.close();
-        //  System.out.println(response.toString()); // Show All Data
 
-        //Read JSON response and Save it
-        JSONObject myResponse = new JSONObject(response.toString());
-        TimeFajer = "0" + myResponse.getJSONObject("data").getString("T_fajr");
-        TimeDhoher = myResponse.getJSONObject("data").getString("T_Dohr");
-        TimeAsar = myResponse.getJSONObject("data").getString("T_Asr");
-        TimeMoghreb = myResponse.getJSONObject("data").getString("T_Maghrib");
-        Timeieacha = myResponse.getJSONObject("data").getString("T_Isha");
+    }
 
-        result.add(0, TimeFajer);
-        result.add(1, TimeDhoher);
-        result.add(2, TimeAsar);
-        result.add(3, TimeMoghreb);
-        result.add(4, Timeieacha);
+    public static void InterNetTime(Label txtFajr, Label txtDhohr, Label txtAsar, Label txtMoghreb, Label txtecha) {
+        try {
+            String url = "https://muslimsalat.com/tunisia.json";
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.addRequestProperty("User-Agent",
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
 
-        txtFajr.setText(TimeFajer);
-        txtDhohr.setText(TimeDhoher);
-        txtAsar.setText(TimeAsar);
-        txtMoghreb.setText(TimeMoghreb);
-        txtecha.setText(Timeieacha);
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+                //  System.out.println("" + response);
+            }
+            in.close();
+            JSONObject myResponse = new JSONObject(response.toString());
 
-        System.out.println("\n");
-        System.out.println("TimeFajer ==>>> " + result.get(0));
-        System.out.println("TimeDhoher ==>>> " + result.get(1));
-        System.out.println("TimeAsar ==>>> " + result.get(2));
-        System.out.println("TimeMoghreb ==>>> " + result.get(3));
-        System.out.println("Timeieacha ==>>> " + result.get(4));
+            //  String pageName = myResponse.getJSONObject("pageInfo").getString("pageName");
+            JSONArray arr = myResponse.getJSONArray("items");
+            for (int i = 0; i < arr.length(); i++) {
+                TimeFajer = arr.getJSONObject(i).getString("fajr");
+                TimeDhoher = arr.getJSONObject(i).getString("dhuhr");
+                TimeAsar = arr.getJSONObject(i).getString("asr");
+                TimeMoghreb = arr.getJSONObject(i).getString("maghrib");
+                Timeieacha = "0" + arr.getJSONObject(i).getString("isha");
+            }
 
+            result.add(0, TimeFajer);
+            result.add(1, TimeDhoher);
+            result.add(2, TimeAsar);
+            result.add(3, TimeMoghreb);
+            result.add(4, Timeieacha);
+            //System.out.println("Fajer" + result.get(0)); //Show the first element (0)
+///////////////////////////////////////////////////////////////////////////
+            Calendar calender = Calendar.getInstance();
+            DateFormat format = new SimpleDateFormat("hh:mm aa");
+            Date date;
+///////////////////////////////////////////////////////////////////////////  DhoherAM To 24H
+            String FajerAMM = "0" + result.get(0);
+            String FajerAM2 = FajerAMM.replace("am", "");
+            FajerAM = FajerAM2.replaceAll("\\s+", "");
+///////////////////////////////////////////////////////////////////////////  DhoherAM To 24H
+            String DhoherAM = result.get(1);
+            String DhoherPM2 = DhoherAM.replace("pm", "");
+            DhoherPM = DhoherPM2.replaceAll("\\s+", "");
+///////////////////////////////////////////////////////////////////////////  Asar To 24H
+            String AsarAM = result.get(2) + " PM";
+            System.out.println("" + AsarAM);
+            date = format.parse(AsarAM);
+            calender.setTime(date);
+             AsarPM = calender.get(Calendar.HOUR_OF_DAY) + ":" + calender.get(Calendar.MINUTE);          
+///////////////////////////////////////////////////////////////////////////  Moghreb To 24H
+            String MoghrebAM = result.get(3) + " PM";
+            date = format.parse(MoghrebAM);
+            calender.setTime(date);
+            MoghrebPM = calender.get(Calendar.HOUR_OF_DAY) + ":" + calender.get(Calendar.MINUTE);
+// System.out.println("MoghrebPM " + MoghrebPM);
+///////////////////////////////////////////////////////////////////////////  Iecha To 24H
+            String iechaAM = result.get(4) + " PM";
+            date = format.parse(iechaAM);
+            calender.setTime(date);
+            iechaPM = calender.get(Calendar.HOUR_OF_DAY) + ":" + calender.get(Calendar.MINUTE);
+// System.out.println("iechaPM " + iechaPM);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+            txtFajr.setText(FajerAM);
+            txtDhohr.setText(DhoherPM);
+            txtAsar.setText(AsarPM);
+            txtMoghreb.setText(MoghrebPM);
+            txtecha.setText(iechaPM);
+//////////////////////// To Use it in Another Func()
+            TimeFajer = FajerAM;
+            TimeDhoher = DhoherPM;
+            TimeAsar = AsarPM;
+            TimeMoghreb = MoghrebPM;
+            Timeieacha = iechaPM;
+        } catch (IOException ex) {
+            Logger.getLogger(Functions.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Functions.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private static void Playsound() {
@@ -150,13 +212,16 @@ public class Functions {
 
         Timeline timelinee = new Timeline();
         timelinee.getKeyFrames().add(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+
             @Override
             public void handle(ActionEvent actionEvent) {
+
                 //  timelinee.stop();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
                 String TimeNow = LocalDateTime.now().format(formatter);
                 // System.out.println("TimeNow " + TimeNow);
-                if (TimeFajer.equals(TimeNow) && OnetimeFajar == 0) { // To check Only One time
+                String DateFajr = "0" + result.get(0);
+                if (DateFajr.equals(TimeNow) && OnetimeFajar == 0) { // To check Only One time
                     System.out.println("اذان الفجر");
                     Adhan.setVisible(true);
                     PrayerTime.stage.setIconified(false);
@@ -172,7 +237,7 @@ public class Functions {
                     }));
                     timeline2.play();
                 }
-                if (TimeDhoher.equals(TimeNow) && OnetimeDhoher == 0) {
+                if (result.get(2).equals(TimeNow) && OnetimeDhoher == 0) {
                     System.out.println("اذان الضهر");
 
                     Adhan.setVisible(true);
@@ -190,7 +255,7 @@ public class Functions {
                     timeline2.play();
                 }
 
-                if (TimeAsar.equals(TimeNow) && OnetimeAsar == 0) {
+                if (AsarPM.equals(TimeNow) && OnetimeAsar == 0) {
                     System.out.println("اذان العصر");
 
                     Adhan.setVisible(true);
@@ -207,7 +272,7 @@ public class Functions {
                     }));
                     timeline2.play();
                 }
-                if (TimeMoghreb.equals(TimeNow) && OnetimeMoghreb == 0) {
+                if (MoghrebPM.equals(TimeNow) && OnetimeMoghreb == 0) {
                     System.out.println("اذان المغرب");
 
                     Adhan.setVisible(true);
@@ -224,7 +289,7 @@ public class Functions {
                     }));
                     timeline2.play();
                 }
-                if (Timeieacha.equals(TimeNow) && Onetimeieacha == 0) {
+                if (iechaPM.equals(TimeNow) && Onetimeieacha == 0) {
                     System.out.println("اذان العشاء");
 
                     Adhan.setVisible(true);
@@ -285,7 +350,7 @@ public class Functions {
 
     public static void CoverToSeconds() {
         try {
-            String FajrWithSec = Functions.TimeFajer + ":" + "00"; // Fomat exmp 14:30:00
+            String FajrWithSec = Functions.TimeFajer + ":" + "00";
             String DhoherWithSec = Functions.TimeDhoher + ":" + "00";
             String AsarWithSec = Functions.TimeAsar + ":" + "00";
             String MoghrebWithSec = Functions.TimeMoghreb + ":" + "00";
@@ -296,36 +361,51 @@ public class Functions {
             Date DateTaww = null;
             DateTaww = format.parse(TimeNoww); //obligatoir Format HH:mm:ss
             Long TimeNowSeconds = DateTaww.getTime() / 1000;
-            //System.out.println("TimeNow in Seconds ==>>>> " + TimeNowSeconds);
+            System.out.println("TimeNow in Seconds ==>>>> " + TimeNowSeconds);
             //////////////////////////////////////////////////////////////////////////////////// Fajer To Sec
             Date FajarSec = null;
             FajarSec = format.parse(FajrWithSec); //obligatoir Format HH:mm:ss
             FajrToSeconds = FajarSec.getTime() / 1000;
-            //  System.out.println("Fajer in Seconds ==>>>> " + FajrToSeconds);
+            System.out.println("Fajer in Seconds ==>>>> " + FajrToSeconds);
             //////////////////////////////////////////////////////////////////////////////////// Dhoher To Sec
             Date DhoherSec = null;
             DhoherSec = format.parse(DhoherWithSec); //obligatoir Format HH:mm:ss
             DhohrToSeconds = DhoherSec.getTime() / 1000;
-            //   System.out.println("Dhoher in Seconds ==>>>> " + DhohrToSeconds);
+            System.out.println("Dhoher in Seconds ==>>>> " + DhohrToSeconds);
             //////////////////////////////////////////////////////////////////////////////////// Asar To Sec
             Date AsarSec = null;
             AsarSec = format.parse(AsarWithSec); //obligatoir Format HH:mm:ss
             AsarToSeconds = AsarSec.getTime() / 1000;
-            //   System.out.println("Asar in Seconds ==>>>> " + AsarToSeconds);
+            System.out.println("Asar in Seconds ==>>>> " + AsarToSeconds);
             //////////////////////////////////////////////////////////////////////////////////// Moghreb To Sec
             Date MoghrebSec = null;
             MoghrebSec = format.parse(MoghrebWithSec); //obligatoir Format HH:mm:ss
             MoghrebToSeconds = MoghrebSec.getTime() / 1000;
-            //      System.out.println("Moghreb in Seconds ==>>>> " + MoghrebToSeconds);
+            System.out.println("Moghreb in Seconds ==>>>> " + MoghrebToSeconds);
             //////////////////////////////////////////////////////////////////////////////////// Moghreb To Sec
             Date IeachaSec = null;
             IeachaSec = format.parse(ieachaWithSec); //obligatoir Format HH:mm:ss
             IeachaToSeconds = IeachaSec.getTime() / 1000;
-            //      System.out.println("Ieacha in Seconds ==>>>> " + IeachaToSeconds);
+            System.out.println("Ieacha in Seconds ==>>>> " + IeachaToSeconds);
             ///////////////////////////////////////////////////////////////////////////////////
         } catch (ParseException ex) {
             Logger.getLogger(Functions.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    //    public static void ProgressBar(JFXProgressBar ProgressBar, double duree) {
+////        Long l = new Long(14447);
+////        double d = l.doubleValue();
+////        System.out.println("d" + d);
+//        Timeline timeline = new Timeline(
+//                new KeyFrame(Duration.ZERO, new KeyValue(ProgressBar.progressProperty(), 0)),
+//                new KeyFrame(Duration.seconds(duree), e -> {
+//                    // do anything you need here on completion...
+//                    //System.out.println("Minute over");
+//                    // PaneMainApp.setStyle(RandomGradient());
+//                }, new KeyValue(ProgressBar.progressProperty(), 1))
+//        );
+//        timeline.setCycleCount(Animation.INDEFINITE);
+//        timeline.play();
+//    }
 }
