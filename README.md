@@ -12,17 +12,17 @@ Desktop application 💻 for calculating Muslim prayer times 🕌 and alarm (Adh
 </div>
 
 ## Screenshots
-Main App           | Adhan
-:---------------------:|:------------------:
-![Main App - screenshot](screenshots/1.gif)  | ![Adhan - screenshot](screenshots/2.gif)
+Main App           |
+:---------------------:|
+![Main App - screenshot](screenshots/1.gif) 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Features
 * [x] Use Api (Prayer Times) 
-* [x] طريقة التنبيه الأذن او الوضع الصامت
+* [x] طريقة التنبيه الأذان او الوضع الصامت
 * [x] تأكد من وجود انترنت عند فتح التطبيق لأول مرة
-* [ ] اخيار الولاية
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Ressources & Libraries 📚
