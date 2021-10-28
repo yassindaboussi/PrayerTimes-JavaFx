@@ -37,10 +37,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import prayertime.PrayerTime;
 import prayertime.PrayerTimeController;
 import org.json.JSONArray;
@@ -98,17 +94,6 @@ public class Functions {
         }
     }
 
-    public static void Oppa() throws IOException, ParseException {
-        Document document = null;
-        document = Jsoup.connect("").get();
-        Elements el = document.select(".cm-string");
-
-        for (Element e : el) {
-            System.out.println("ssssssssssssssss" + e.text());
-            result.add(e.text());
-        }
-
-    }
 
     public static void InterNetTime(Label txtFajr, Label txtDhohr, Label txtAsar, Label txtMoghreb, Label txtecha) {
         try {

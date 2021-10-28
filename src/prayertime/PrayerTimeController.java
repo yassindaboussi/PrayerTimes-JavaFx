@@ -12,9 +12,6 @@ import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTimePicker;
 import com.jfoenix.controls.JFXToggleButton;
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -143,11 +140,7 @@ public class PrayerTimeController implements Initializable {
                     System.out.println("True");
                     connection = "Yes";
 
-                    try {
-                        Functions.InterNetTime(txtFajr, txtDhohr, txtAsar, txtMoghreb, txtecha); //Logger.getLogger(PrayerTimeController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        ex.getStackTrace();
-                    }
+                    Functions.InterNetTime(txtFajr, txtDhohr, txtAsar, txtMoghreb, txtecha); //Logger.getLogger(PrayerTimeController.class.getName()).log(Level.SEVERE, null, ex);
                     Functions.CoverToSeconds();//To easy Compare Time
                     TimeOfNexTSalatis();
                     Functions.VerifTimeisEqual(Adhan, txtAdhanSalat);
